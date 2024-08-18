@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardActions,
@@ -9,7 +10,6 @@ import {
   Box,
   Grid,
 } from "@mui/material";
-import React from "react";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -18,16 +18,25 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: { xs: "90%", sm: "80%", md: "60%", lg: "40%" }, // Adjust width based on screen size
+  width: { xs: "90%", sm: "80%", md: "60%", lg: "40%" },
   bgcolor: "background.paper",
   borderRadius: "10px",
-  p: { xs: 2, sm: 3, md: 4 }, // Adjust padding based on screen size
+  p: { xs: 2, sm: 3, md: 4 },
 };
 
-const PortfolioCards = () => {
+const PortfolioCards = ({ data }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [selectedData, setSelectedData] = React.useState(null);
+
+  const handleOpen = (item) => {
+    setSelectedData(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedData(null);
+  };
 
   return (
     <>
@@ -39,143 +48,99 @@ const PortfolioCards = () => {
           margin: "auto",
         }}
       >
-        {[...Array(7)].map((_, index) => (
+        {data.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Card sx={{ maxWidth: 350 }}>
               <CardContent>
                 <CardMedia
-                  sx={{ height: 160, borderRadius:'1rem'}}
+                  sx={{ height: 160, borderRadius: "1rem" }}
                   image="https://i.pinimg.com/564x/b5/9e/32/b59e3257ab88767b64814da011966757.jpg"
-                  title="green iguana"
+                  title={item.name}
                 />
                 <Typography gutterBottom variant="h5" component="div">
-                  Lizard
+                  {item.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                  {item.smallDescription}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small" onClick={handleOpen}>
+                <Button size="small" onClick={() => handleOpen(item)}>
                   Learn More
                 </Button>
               </CardActions>
             </Card>
-            <Modal
-              open={open}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    mb: 2,
-                  }}
-                >
-                  <CloseIcon
-                    onClick={handleClose}
-                    sx={{ cursor: "pointer", color: "text.secondary" }}
-                  />
-                </Box>
+          </Grid>
+        ))}
+      </Grid>
 
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              mb: 2,
+            }}
+          >
+            <CloseIcon
+              onClick={handleClose}
+              sx={{ cursor: "pointer", color: "text.secondary" }}
+            />
+          </Box>
+
+          {selectedData && (
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  mb: 2,
+                }}
+              >
+                <Typography variant="h5" component="div" gutterBottom>
+                  {selectedData.name}
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {selectedData.smallDescription}
+                </Typography>
+              </Box>
+
+              {selectedData.features.map((feature, idx) => (
                 <Box
+                  key={idx}
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
                     alignItems: "center",
-                    textAlign: "center",
-                    mb: 2,
+                    gap: "10px",
+                    mb: 1,
                   }}
                 >
-                  <Typography variant="h5" component="div" gutterBottom>
-                    Web Designer
-                  </Typography>
+                  <CheckCircleOutlineIcon color="success" />
                   <Typography
                     sx={{ fontSize: 14 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industrys
-                    standard dummy text ever since the 1500s.
+                    {feature}
                   </Typography>
                 </Box>
-
-                <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <CheckCircleOutlineIcon color="success" />
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Word of the Day
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <CheckCircleOutlineIcon color="success" />
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Word of the Day
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <CheckCircleOutlineIcon color="success" />
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Word of the Day
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <CheckCircleOutlineIcon color="success" />
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Word of the Day
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            </Modal>
-          </Grid>
-        ))}
-      </Grid>
+              ))}
+            </Box>
+          )}
+        </Box>
+      </Modal>
     </>
   );
 };

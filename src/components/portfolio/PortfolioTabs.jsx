@@ -46,17 +46,81 @@ function a11yProps(index) {
   };
 }
 
-const alldata=[
+const alldata = [
   {
-    
-  }
-]
+    name: "EliteGear",
+    smallDescription:
+      "A premium e-commerce platform offering high-quality gear and accessories for outdoor enthusiasts.",
+    features: [
+      "User-friendly interface for seamless shopping experience.",
+      "Advanced search and filtering options for quick product discovery.",
+      "Secure payment gateway integration.",
+      "Responsive design for mobile and desktop views.",
+      "Wishlist and product comparison features.",
+    ],
+  },
+  {
+    name: "Todo-app",
+    smallDescription:
+      "A feature-rich to-do list application designed to help you manage tasks efficiently.",
+    features: [
+      "Add, edit, and delete tasks with ease.",
+      "Organize tasks by priority and due dates.",
+      "Set reminders and notifications for upcoming tasks.",
+      "Collaborate with others by sharing tasks.",
+      "Progress tracking with visual indicators.",
+    ],
+  },
+  {
+    name: "YouTube-clone",
+    smallDescription:
+      "A clone of the popular video streaming platform, featuring core functionalities of YouTube.",
+    features: [
+      "Watch and upload videos in various formats.",
+      "Search for videos using keywords and filters.",
+      "Like, comment, and subscribe to channels.",
+      "Personalized recommendations based on watch history.",
+      "Responsive design for all device types.",
+    ],
+  },
+  {
+    name: "Face-recognization",
+    smallDescription:
+      "A face recognition system for secure access and attendance management.",
+    features: [
+      "Real-time face detection and recognition.",
+      "Automated attendance marking with timestamp.",
+      "Support for multiple users and roles.",
+      "Secure data storage and management.",
+      "Integration with existing security systems.",
+    ],
+  },
+];
+
+const Web = [...alldata]; // Assuming Web data is the same as alldata for now
+const App = [...alldata]; // Similarly for App and Design
+const Design = [...alldata];
 
 const PortfolioTabs = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const getCurrentData = () => {
+    switch (value) {
+      case 0:
+        return alldata;
+      case 1:
+        return Web;
+      case 2:
+        return App;
+      case 3:
+        return Design;
+      default:
+        return alldata;
+    }
   };
 
   return (
@@ -90,25 +154,25 @@ const PortfolioTabs = () => {
         <Typography variant="h6" gutterBottom>
           All Projects
         </Typography>
-        <PortfolioCards />
+        <PortfolioCards data={getCurrentData()} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <Typography variant="h6" gutterBottom>
           Web Projects
         </Typography>
-        <PortfolioCards />
+        <PortfolioCards data={getCurrentData()} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <Typography variant="h6" gutterBottom>
           App Projects
         </Typography>
-        <PortfolioCards />
+        <PortfolioCards data={getCurrentData()} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <Typography variant="h6" gutterBottom>
           Design Projects
         </Typography>
-        <PortfolioCards />
+        <PortfolioCards data={getCurrentData()} />
       </CustomTabPanel>
     </Box>
   );
